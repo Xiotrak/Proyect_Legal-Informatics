@@ -1,6 +1,7 @@
 // server.js
 const express = require('express');
 const app = express();
+const path = require('path');
 const PORT = 3000;
 
 // Datos almacenados localmente
@@ -18,12 +19,17 @@ const casos = [
   // Añade más casos según lo necesites
 ];
 
+// Explicitly set the root route to the welcome page
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'welcome.html'));
+});
+
 // Ruta para servir los datos
 app.get('/api/casos', (req, res) => {
   res.json(casos);
 });
 
-// Servir archivos estáticos (HTML, CSS, JS) desde una carpeta llamada "public"
+// Servir archivos estáticos desde la carpeta "public"
 app.use(express.static('public'));
 
 // Iniciar el servidor

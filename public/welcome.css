@@ -1,0 +1,41 @@
+/* General font styling consistent with Law Machine */
+body {
+    font-family: Arial, sans-serif; /* Ensure it matches the Law Machine font */
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+  }
+  
+  /* Welcome Page Styling */
+  .welcome-container {
+    text-align: center;
+    padding: 2rem 1rem; /* Padding for breathing room */
+  }
+  
+  .welcome-container h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  .welcome-container p {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: #555;
+  }
+  
+  .welcome-container button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.2rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .welcome-container button:hover {
+    background-color: #0056b3;
+  }
+  

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bienvenido a Law Machine</title>
+  <link rel="stylesheet" href="welcome.css">
+</head>
+<body>
+  <div class="welcome-container">
+    <h1>Bienvenido a Law Machine</h1>
+    <p>En esta aplicación, compararás diferentes infracciones o crímenes y decidirás cuál crees que merece un castigo más severo.</p>
+    <p>¿Listo para comenzar?</p>
+    <button id="start-button">Comenzar</button>
+  </div>
+
+  <script>
+    // Redirect to the main page when the button is clicked
+    document.getElementById('start-button').addEventListener('click', () => {
+      window.location.href = 'index.html'; // Adjust if your main page is named differently
+    });
+  </script>
+</body>
+</html>
