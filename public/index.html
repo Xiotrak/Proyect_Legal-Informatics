@@ -4,17 +4,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lista de Casos</title>
+  <title>Law Machine</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Casos</h1>
-  <div id="casos-container"></div>
-  <div class="buttons">
-    <button id="prev-btn" disabled>Anterior</button>
-    <button id="next-btn">Siguiente</button>
-    <button id="show-all-btn" style="display: none;">Ver Todo</button>
+  <h1>Law Machine</h1>
+  <p>Elige cuál caso es más severo:</p>
+
+  <!-- Contenedor para mostrar los casos -->
+  <div id="casos-container">
+    <div class="case-label-container">
+      <span class="case-label">Caso A</span>
+      <span class="case-label">Caso B</span>
+    </div>
   </div>
+
+  <!-- Contenedor para métricas -->
+  <div id="metricas-container"></div>
+
+  <!-- Botón para continuar -->
+  <button id="continue-button" style="display: none;">Continuar</button>
+
+  <!-- Contenedor para el gráfico final -->
+  <div id="grafico-container" style="display: none;">
+    <h2>Resumen Final</h2>
+    <canvas id="grafico-votos"></canvas>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

@@ -1,23 +1,117 @@
 /* public/styles.css */
 body {
   font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+h1 {
+  margin-top: 1rem;
+  color: #333;
 }
 
 #casos-container {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   gap: 1rem;
+  margin: 2rem auto;
+  max-width: 800px;
 }
 
-.caso {
-  padding: 1rem;
+.case {
   border: 1px solid #ddd;
-  border-radius: 5px;
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 45%;
+  text-align: center;
+  padding: 1rem;
+  margin: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.case:hover {
+  transform: scale(1.02);
   background-color: #f9f9f9;
 }
 
+.case.selected {
+  background-color: #007bff;
+  color: white;
+}
+
+.case.disabled {
+  pointer-events: none;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+
 .buttons {
-  display: flex;
-  gap: 1rem;
   margin-top: 1rem;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+#metricas-container {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 1rem;
+  color: #555;
+}
+
+#grafico-container {
+  margin: 2rem auto;
+  max-width: 600px;
+  text-align: center;
+}
+
+#grafico-votos {
+  width: 100%;
+  height: 400px;
+}
+
+#continue-button {
+  display: block;
+  margin: 1rem auto;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#continue-button:hover {
+  background-color: #0056b3;
+}
+
+.case-label-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  max-width: 800px;
+  margin: 0 auto;
 }
