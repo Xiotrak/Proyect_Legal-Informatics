@@ -198,18 +198,26 @@ document.addEventListener('DOMContentLoaded', () => {
   // Mostrar gráfico final con datos simulados
   function mostrarGrafico() {
     const graficoContenedor = document.getElementById('grafico-container');
+    const prompt = document.getElementById('main-prompt'); // Target the prompt
+  
+    // Update the prompt text
+    if (prompt) {
+      prompt.textContent = 'Ranking de casos'; // New prompt text
+    }
+  
+    // Display the graph container
     graficoContenedor.style.display = 'block';
-
+  
     const ctx = document.getElementById('grafico-votos').getContext('2d');
     const nombres = casos.map((caso) => caso.nombre);
-    const votos = Object.values(votosMock); // Usar datos simulados
-
+    const votos = Object.values(votosMock); // Use simulated data
+  
     new Chart(ctx, {
       type: 'bar',
       data: {
         labels: nombres,
         datasets: [{
-          label: 'Votos simulados por caso',
+          label: 'Casos más votados como severos',
           data: votos,
           backgroundColor: 'rgba(75, 192, 192, 0.6)',
           borderColor: 'rgba(75, 192, 192, 1)',
@@ -223,6 +231,10 @@ document.addEventListener('DOMContentLoaded', () => {
         },
       },
     });
-    sessionStorage.clear(); // Limpiar datos al final
+  
+    // Clear session storage at the end
+    sessionStorage.clear();
   }
+  
+  
 });
