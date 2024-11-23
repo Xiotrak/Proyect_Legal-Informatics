@@ -191,45 +191,57 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Mostrar gráfico final con datos simulados
-  function mostrarGrafico() {
-    const graficoContenedor = document.getElementById('grafico-container');
-    const prompt = document.getElementById('main-prompt'); // Target the prompt
-  
-    // Update the prompt text
-    if (prompt) {
-      prompt.textContent = 'Ranking de casos'; // New prompt text
-    }
-  
-    // Display the graph container
-    graficoContenedor.style.display = 'block';
-  
-    const ctx = document.getElementById('grafico-votos').getContext('2d');
-    const nombres = casos.map((caso) => caso.nombre);
-    const votos = Object.values(votosMock); // Use simulated data
-  
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: nombres,
-        datasets: [{
-          label: 'Casos más votados como severos',
-          data: votos,
-          backgroundColor: 'rgba(75, 192, 192, 0.6)',
-          borderColor: 'rgba(75, 192, 192, 1)',
-          borderWidth: 1,
-        }],
-      },
-      options: {
-        responsive: true,
-        scales: {
-          y: { beginAtZero: true },
-        },
-      },
-    });
-  
-    // Clear session storage at the end
-    sessionStorage.clear();
+function mostrarGrafico() {
+  const graficoContenedor = document.getElementById('grafico-container');
+  const prompt = document.getElementById('main-prompt'); // Target the prompt element
+
+  // Update the prompt text
+  if (prompt) {
+    prompt.textContent = 'Ranking de casos';
   }
+
+  // Display the graph container
+  graficoContenedor.style.display = 'block';
+
+  const ctx = document.getElementById('grafico-votos').getContext('2d');
+
+  // Combine case names with their corresponding votes
+  const data = casos.map((caso, index) => ({
+    nombre: caso.nombre,
+    votos: votosMock[index] || 0, // Ensure default value if votesMock is undefined
+  }));
+
+  // Sort data by votes in descending order
+  const sortedData = data.sort((a, b) => b.votos - a.votos);
+
+  // Extract sorted names and votes
+  const nombresOrdenados = sortedData.map((item) => item.nombre);
+  const votosOrdenados = sortedData.map((item) => item.votos);
+
+  // Create the chart
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: nombresOrdenados,
+      datasets: [{
+        label: 'Casos más votados como severos',
+        data: votosOrdenados,
+        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1,
+      }],
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: { beginAtZero: true },
+      },
+    },
+  });
+
+  // Clear session storage at the end
+  sessionStorage.clear();
+}
   
   
 });
