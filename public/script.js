@@ -21,22 +21,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Generar una clave única para cada par de casos
   function generarClave(a, b) {
-    return a < b ? `${a}-${b}` : `${b}-${a}`; // Always return the key as min-max
+    return a < b ? `${a}-${b}` : `${b}-${a}`;
   }
     
   // Inicializar métricas simuladas
   function inicializarMetricasMock() {
-    metricasMock = {}; // Ensure it's empty before initializing
+    metricasMock = {};
   
     for (let i = 0; i < casos.length; i++) {
       for (let j = i + 1; j < casos.length; j++) {
         const key = generarClave(i, j);
   
-        // Generate one random percentage
-        const porcentajeA = Math.floor(Math.random() * 101); // Random value between 0-100
-        const porcentajeB = 100 - porcentajeA; // Complement to 100%
-  
-        // Assign to the metrics
+        const porcentajeA = Math.floor(Math.random() * 101);
+        const porcentajeB = 100 - porcentajeA;
+          
         metricasMock[key] = {
           porcentajeA,
           porcentajeB,
@@ -44,14 +42,14 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   
-    console.log('MetricasMock initialized:', metricasMock); // Log for debugging
+    console.log('MetricasMock initialized:', metricasMock);
   }
   
 
   // Inicializar votos simulados para el gráfico
   function inicializarVotosMock() {
     casos.forEach((_, index) => {
-      votosMock[index] = Math.floor(Math.random() * 100) + 50; // Simular entre 50-150 votos por caso
+      votosMock[index] = Math.floor(Math.random() * 100) + 50;
     });
   }
 
@@ -62,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
     for (let i = 0; i < indices.length; i += 2) {
       if (indices[i + 1] !== undefined) {
-        const key = generarClave(indices[i], indices[i + 1]); // Use the helper function
+        const key = generarClave(indices[i], indices[i + 1]);
         if (!metricasMock[key]) {
           console.error(`Key missing in metricasMock: ${key}`);
         }
@@ -90,28 +88,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const botonContinuar = document.getElementById('continue-button');
     contenedor.innerHTML = '';
     metricasContenedor.innerHTML = '';
-    botonContinuar.style.display = 'none'; // Hide "Continue" button initially
+    botonContinuar.style.display = 'none';
   
     if (indiceActual < paresAleatorios.length) {
       const [indiceA, indiceB] = paresAleatorios[indiceActual];
       const key = `${indiceA}-${indiceB}`;
   
-      // Create and display Caso A
       const casoA = crearElementoCaso(casos[indiceA], indiceA);
       const casoB = crearElementoCaso(casos[indiceB], indiceB);
   
-      // Append cases to the container
       contenedor.appendChild(casoA);
       contenedor.appendChild(casoB);
   
-      // Attach events after rendering
       setTimeout(() => {
         casoA.onclick = () => registrarVoto(indiceA, indiceB, key);
         casoB.onclick = () => registrarVoto(indiceB, indiceA, key);
         console.log('Event listeners attached to cases.');
-      }, 0); // Ensure DOM is updated before attaching events
+      }, 0);
     } else {
-      mostrarGrafico(); // Show final graph if no more pairs
+      mostrarGrafico();
     }
   }
   
@@ -139,49 +134,64 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Registrar un voto y mostrar métricas
-  function registrarVoto(casoSeleccionado, casoNoSeleccionado) {
-  const key = generarClave(casoSeleccionado, casoNoSeleccionado);
-  if (!metricasMock[key]) {
-    console.warn(`Missing key: ${key}. Generating default metrics.`);
-    metricasMock[key] = { porcentajeA: 50, porcentajeB: 50 };
+  function registrarVoto(casoSeleccionado, casoNoSeleccionado, key) {
+  const keyLocalStorage = `vote-${key}`;
+  const lastVoted = localStorage.getItem('last-voted');
+  const cooldownPeriod = 5 * 60 * 1000;
+
+  if (localStorage.getItem(keyLocalStorage)) {
+    console.log('Ya has votado en este par. Redirigiendo al ranking...');
+    mostrarGrafico();
+    return;
+  }
+
+  if (lastVoted && Date.now() - parseInt(lastVoted, 10) < cooldownPeriod) {
+    console.log('Cooldown activo. Redirigiendo al ranking...');
+    mostrarGrafico();
+    return;
+  }
+
+  localStorage.setItem('last-voted', Date.now());
+
+  localStorage.setItem(keyLocalStorage, JSON.stringify({ casoSeleccionado, casoNoSeleccionado }));
+
+  const keyMetricas = generarClave(casoSeleccionado, casoNoSeleccionado);
+  if (!metricasMock[keyMetricas]) {
+    console.warn(`Missing key: ${keyMetricas}. Generating default metrics.`);
+    metricasMock[keyMetricas] = { porcentajeA: 50, porcentajeB: 50 };
   }
 
   const metricasContenedor = document.getElementById('metricas-container');
   const botonContinuar = document.getElementById('continue-button');
 
-  const casoA = casos[casoSeleccionado];
-  const casoB = casos[casoNoSeleccionado];
+  const casoSeleccionadoNombre = casos[casoSeleccionado].nombre;
+  const casoNoSeleccionadoNombre = casos[casoNoSeleccionado].nombre;
 
-  const porcentajeA = metricasMock[key].porcentajeA;
-  const porcentajeB = metricasMock[key].porcentajeB;
+  const porcentajeA = metricasMock[keyMetricas].porcentajeA;
+  const porcentajeB = metricasMock[keyMetricas].porcentajeB;
 
-  // Display the bars dynamically
   const metricasHTML = `
     <div class="percentage-bars">
       <div class="bar bar-left" style="width: ${porcentajeA}%;"></div>
       <div class="bar bar-right" style="width: ${porcentajeB}%;"></div>
     </div>
     <div class="percentage-labels">
-      <span><strong>${porcentajeA}%</strong> eligieron <strong>${casoA.nombre}</strong></span>
-      <span><strong>${porcentajeB}%</strong> eligieron <strong>${casoB.nombre}</strong></span>
+      <span><strong>${porcentajeA}%</strong> eligieron <strong>${casoSeleccionadoNombre}</strong></span>
+      <span><strong>${porcentajeB}%</strong> eligieron <strong>${casoNoSeleccionadoNombre}</strong></span>
     </div>
   `;
   metricasContenedor.innerHTML = metricasHTML;
 
-  // Disable further clicks on case boxes
+  
   const caseBoxes = document.querySelectorAll('.case');
   caseBoxes.forEach((box) => {
-    box.onclick = null; // Remove click event
-    box.classList.add('disabled'); // Add visual feedback
+    box.onclick = null;
+    box.classList.add('disabled');
   });
 
-  // Show "Continue" button
   botonContinuar.style.display = 'block';
   botonContinuar.onclick = avanzarAlSiguientePar;
 }
-
-  
-  
 
   // Avanzar al siguiente par
   function avanzarAlSiguientePar() {
@@ -195,30 +205,24 @@ function mostrarGrafico() {
   const graficoContenedor = document.getElementById('grafico-container');
   const prompt = document.getElementById('main-prompt'); // Target the prompt element
 
-  // Update the prompt text
   if (prompt) {
     prompt.textContent = 'Ranking de casos';
   }
 
-  // Display the graph container
   graficoContenedor.style.display = 'block';
 
   const ctx = document.getElementById('grafico-votos').getContext('2d');
 
-  // Combine case names with their corresponding votes
   const data = casos.map((caso, index) => ({
     nombre: caso.nombre,
-    votos: votosMock[index] || 0, // Ensure default value if votesMock is undefined
+    votos: votosMock[index] || 0,
   }));
 
-  // Sort data by votes in descending order
   const sortedData = data.sort((a, b) => b.votos - a.votos);
 
-  // Extract sorted names and votes
   const nombresOrdenados = sortedData.map((item) => item.nombre);
   const votosOrdenados = sortedData.map((item) => item.votos);
 
-  // Create the chart
   new Chart(ctx, {
     type: 'bar',
     data: {
@@ -239,7 +243,6 @@ function mostrarGrafico() {
     },
   });
 
-  // Clear session storage at the end
   sessionStorage.clear();
 }
   
