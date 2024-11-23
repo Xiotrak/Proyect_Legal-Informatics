@@ -140,51 +140,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Registrar un voto y mostrar métricas
   function registrarVoto(casoSeleccionado, casoNoSeleccionado) {
-    const key = generarClave(casoSeleccionado, casoNoSeleccionado);
-    if (!metricasMock[key]) {
-      console.warn(`Missing key: ${key}. Generating default metrics.`);
-      metricasMock[key] = { porcentajeA: 50, porcentajeB: 50 };
-    }
-  
-    const metricasContenedor = document.getElementById('metricas-container');
-    const botonContinuar = document.getElementById('continue-button');
-  
-    const casoSeleccionadoNombre = casos[casoSeleccionado].nombre;
-    const casoNoSeleccionadoNombre = casos[casoNoSeleccionado].nombre;
-  
-    // Get the raw percentages
-    let porcentajeA = metricasMock[key].porcentajeA;
-    let porcentajeB = metricasMock[key].porcentajeB;
-  
-    // Normalize percentages to sum to 100%
-    const total = porcentajeA + porcentajeB;
-    porcentajeA = Math.round((porcentajeA / total) * 100);
-    porcentajeB = Math.round((porcentajeB / total) * 100);
-  
-    // Display the bars dynamically
-    const metricasHTML = `
-      <div class="percentage-bars">
-        <div class="bar bar-left" style="width: ${porcentajeA}%;"></div>
-        <div class="bar bar-right" style="width: ${porcentajeB}%;"></div>
-      </div>
-      <div class="percentage-labels">
-        <span><strong>${porcentajeA}%</strong> eligieron <strong>${casoSeleccionadoNombre}</strong></span>
-        <span><strong>${porcentajeB}%</strong> eligieron <strong>${casoNoSeleccionadoNombre}</strong></span>
-      </div>
-    `;
-    metricasContenedor.innerHTML = metricasHTML;
-  
-    // Disable further clicks on case boxes
-    const caseBoxes = document.querySelectorAll('.case');
-    caseBoxes.forEach((box) => {
-      box.onclick = null; // Remove click event
-      box.classList.add('disabled'); // Add visual feedback
-    });
-  
-    // Show "Continue" button
-    botonContinuar.style.display = 'block';
-    botonContinuar.onclick = avanzarAlSiguientePar;
+  const key = generarClave(casoSeleccionado, casoNoSeleccionado);
+  if (!metricasMock[key]) {
+    console.warn(`Missing key: ${key}. Generating default metrics.`);
+    metricasMock[key] = { porcentajeA: 50, porcentajeB: 50 };
   }
+
+  const metricasContenedor = document.getElementById('metricas-container');
+  const botonContinuar = document.getElementById('continue-button');
+
+  const casoA = casos[casoSeleccionado];
+  const casoB = casos[casoNoSeleccionado];
+
+  const porcentajeA = metricasMock[key].porcentajeA;
+  const porcentajeB = metricasMock[key].porcentajeB;
+
+  // Display the bars dynamically
+  const metricasHTML = `
+    <div class="percentage-bars">
+      <div class="bar bar-left" style="width: ${porcentajeA}%;"></div>
+      <div class="bar bar-right" style="width: ${porcentajeB}%;"></div>
+    </div>
+    <div class="percentage-labels">
+      <span><strong>${porcentajeA}%</strong> eligieron <strong>${casoA.nombre}</strong></span>
+      <span><strong>${porcentajeB}%</strong> eligieron <strong>${casoB.nombre}</strong></span>
+    </div>
+  `;
+  metricasContenedor.innerHTML = metricasHTML;
+
+  // Disable further clicks on case boxes
+  const caseBoxes = document.querySelectorAll('.case');
+  caseBoxes.forEach((box) => {
+    box.onclick = null; // Remove click event
+    box.classList.add('disabled'); // Add visual feedback
+  });
+
+  // Show "Continue" button
+  botonContinuar.style.display = 'block';
+  botonContinuar.onclick = avanzarAlSiguientePar;
+}
+
   
   
 
