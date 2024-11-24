@@ -1,37 +1,35 @@
 <!-- public/index.html -->
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Law Machine</title>
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
   <h1>Law Machine</h1>
-  <p id="main-prompt">Elige cuál caso es más severo:</p>
+  <p id="main-prompt">¿Cuál caso consideras que es más grave?:</p>
+  <div id="casos-container"></div>
 
-  <!-- Contenedor para mostrar los casos -->
-  <div id="casos-container">
-    <div class="case-label-container">
-      <span class="case-label">Caso A</span>
-      <span class="case-label">Caso B</span>
-    </div>
+  <button id="home-btn">Regresar al inicio</button>
+  
+  <div id="boton-verTodo">
+    <button id="show-all-btn" style="display: none;" onclick="window.location.href='todos-los-casos.html';">Resumen Final</button>
   </div>
-
-  <!-- Contenedor para métricas -->
-  <div id="metricas-container"></div>
-
-  <!-- Botón para continuar -->
+  
+  <div id="metricas-container"></div> <!-- Added for displaying metrics -->
   <button id="continue-button" style="display: none;">Continuar</button>
 
-  <!-- Contenedor para el gráfico final -->
   <div id="grafico-container" style="display: none;">
-    <h2>Resumen Final</h2>
     <canvas id="grafico-votos"></canvas>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="script.js"></script>
 </body>
+
 </html>
+

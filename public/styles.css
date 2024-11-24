@@ -1,6 +1,8 @@
-/* public/styles.css */
+/*----------------------------------------------------------------------------------------------------------------------------------*/
+/* Estilos para atributos generales */
 body {
   font-family: Arial, sans-serif;
+
   background-color: #f4f4f4;
   margin: 0;
   padding: 0;
@@ -19,20 +21,58 @@ h1 {
   text-align: center;
   margin: 1rem 0;
   color: #555;
-}
+/*----------------------------------------------------------------------------------------------------------------------------------*/
 
+
+
+/*----------------------------------------------------------------------------------------------------------------------------------*/
+/* Estilos usados para la página de principal (index.html) y todos-los-casos.html */
+/*----------------------------------------------------------------------------------------------------------------------------------*/
+
+
+
+/*----------------------------------------------------------------------------------------------------------------------------------*/
+/* Estilo para el mensaje en la página de opciones*/
+#main-prompt {
+  font-size: 1.5rem; /* Increase the prompt size */
+  text-align: center;
+  margin: 1rem 0;
+  color: #000000;
+}
+/*----------------------------------------------------------------------------------------------------------------------------------*/
+
+/*----------------------------------------------------------------------------------------------------------------------------------*/
+/* Estilo contenedor par de casos */
 #casos-container {
   display: flex;
   justify-content: center;
   gap: 1rem;
   margin: 2rem auto;
-  max-width: 800px;
+  max-height: 2000px;
+  max-width: 1000px;
 }
+/*----------------------------------------------------------------------------------------------------------------------------------*/
 
-.case {
+/*----------------------------------------------------------------------------------------------------------------------------------*/
+/* Estilo contenedor todos los casos */
+#todos-casos-container {
+  width: 50%; /* Ancho del div */
+  margin: 20px auto; /* Centrado horizontal */
+  background-color: #f4f4f4;
+  text-align: center; /* Centra el contenido dentro del div (opcional) */
+  padding: 20px;
   border: 1px solid #ddd;
+
+}
+/*----------------------------------------------------------------------------------------------------------------------------------*/
+
+
+/*----------------------------------------------------------------------------------------------------------------------------------*/
+/* Estilo para la información de los casos */
+.case {
+  border: 5px solid #000000;
   border-radius: 8px;
-  background-color: white;
+  background-color: #a3f7ff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 45%;
   text-align: center;
@@ -46,18 +86,116 @@ h1 {
   transform: scale(1.02);
   background-color: #f9f9f9;
 }
+/*----------------------------------------------------------------------------------------------------------------------------------*/
 
-.case.selected {
-  background-color: #007bff;
+/*----------------------------------------------------------------------------------------------------------------------------------*/
+#show-all-btn {
+  display: block; /* Necesario para usar margin auto */
+  margin: 0 auto; /* Centra horizontalmente */
+  padding: 0.5rem 1rem;
+  font-size: 25px; /* Tamaño de fuente */
+  background-color: #747474;
   color: white;
+  border: 3px solid #000000;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s; /* Animación suave */
+  height: 100px;
+  width: 300px;
+}
+#show-all-btn:hover {
+  background-color: #2ec6d1; /* Color de fondo al pasar el mouse */
 }
 
+#volver-btn {
+  display: block; /* Necesario para usar margin auto */
+  margin: 20px auto; /* Centra horizontalmente */
+  padding: 0.5rem 1rem;
+  font-size: 25px; /* Tamaño de fuente */
+  background-color: #747474;
+  color: white;
+  border: 3px solid #000000;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s; /* Animación suave */
+  height: 100px;
+}
+#volver-btn:hover {
+  background-color: #0056b3; /* Color de fondo al pasar el mouse */
+}
+
+#home-btn {
+  display: block; /* Necesario para usar margin auto */
+  margin: 20px auto; /* Centra horizontalmente */
+  padding: 0.5rem 1rem;
+  font-size: 20px; /* Tamaño de fuente */
+  background-color: #747474;
+  color: white;
+  border: 3px solid #000000;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s; /* Animación suave */
+}
+#home-btn:hover {
+  background-color: #0056b3; /* Color de fondo al pasar el mouse */
+}
+
+/*----------------------------------------------------------------------------------------------------------------------------------*/
+
+
+
+/*----------------------------------------------------------------------------------------------------------------------------------*/
+/* Estilos usados para la página de Bienvenida */
+/*----------------------------------------------------------------------------------------------------------------------------------*/
+
+
+
+/*----------------------------------------------------------------------------------------------------------------------------------*/
+/* Estilo contenedor de mensaje que explica obj página */
+.mensaje-container {
+  width: 50%; /* Ancho del div */
+  margin: 20px auto; /* Centrado horizontal */
+  text-align: center;
+  background-color: #f0f8ff; /* Color de fondo */
+  border: 8px solid #007acc; /* Borde con color */
+  border-radius: 10px; /* Bordes redondeados */
+  padding: 15px; /* Espaciado interno */
+  width: 1000px; /* Ancho del recuadro */
+  font-family: Arial, sans-serif; /* Fuente para el texto */
+}
+.mensaje-container p {
+  margin: 0; /* Quita el margen por defecto de <p> */
+  color: #000000; /* Color del texto */
+  font-size: 28px; /* Tamaño de fuente */
+  padding: 15px; /* Espaciado interno */
+  text-align: left; /* Alinea el texto hacia la izquierda */
+}
+/* Estilo para contenedor mensaje de bienvenida */
+.welcome-container {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+/*----------------------------------------------------------------------------------------------------------------------------------*/
+
+/*----------------------------------------------------------------------------------------------------------------------------------*/
+/* Estilo para contenedor de botones */
+.welcome-container button {
+  display: block; /* Necesario para usar margin auto */
+  margin: 20px auto; /* Centra horizontalmente */
+  padding: 0.5rem 1rem;
+  font-size: 25px; /* Tamaño de fuente */
+  background-color: #747474;
+  color: white;
+  border: 3px solid #000000;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s; /* Animación suave */
+=======
 .case.disabled {
   pointer-events: none;
   opacity: 0.6;
   cursor: not-allowed;
 }
-
 
 .buttons {
   margin-top: 1rem;
@@ -82,6 +220,7 @@ button:disabled {
   cursor: not-allowed;
 }
 
+/* Estilo para las metricas */
 #metricas-container {
   margin-top: 1rem;
   text-align: center;
@@ -89,6 +228,7 @@ button:disabled {
   color: #555;
 }
 
+/* Estilo para el ranking de los graficos */
 #grafico-container {
   margin: 2rem auto;
   max-width: 600px;
@@ -100,6 +240,7 @@ button:disabled {
   height: 400px;
 }
 
+/* Estilo para el boton de continuar*/
 #continue-button {
   display: block;
   margin: 1rem auto;
@@ -125,7 +266,7 @@ button:disabled {
   margin: 0 auto;
 }
 
-/* Percentage Bars Container */
+/* Estilo para las barras de porcentage */
 .percentage-bars {
   display: flex;
   justify-content: center;
@@ -138,7 +279,6 @@ button:disabled {
   overflow: hidden;
 }
 
-/* Left Bar (Case A) */
 .bar-left {
   background-color: rgba(0, 123, 255, 0.6);
   height: 100%;
@@ -146,7 +286,6 @@ button:disabled {
   transform-origin: right;
 }
 
-/* Right Bar (Case B) */
 .bar-right {
   background-color: rgba(255, 87, 51, 0.6);
   height: 100%;
@@ -155,7 +294,6 @@ button:disabled {
 }
 
 
-/* Percentage Labels */
 .percentage-labels {
   display: flex;
   justify-content: space-between;
@@ -168,3 +306,20 @@ button:disabled {
   flex: 1;
   text-align: center;
 }
+.welcome-container button:hover {
+  background-color: #0056b3;
+}
+/*----------------------------------------------------------------------------------------------------------------------------------*/
+
+/*----------------------------------------------------------------------------------------------------------------------------------*/
+/* Estilo para imagen */
+.welcome-image {
+    max-width: 400px;
+    margin: 1rem auto;
+    display: block;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
+  }
+/*----------------------------------------------------------------------------------------------------------------------------------*/
+
+
+
