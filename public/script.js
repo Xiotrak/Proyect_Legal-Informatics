@@ -96,36 +96,50 @@ document.addEventListener('DOMContentLoaded', () => {
     // Se identifica el par de casos usando los parámetros como indice, se hace un chequeo en caso de terminar de ver todos los casos
     // Una vez registrada la selección se muestra una barra de porcentaje que informa al usuario de la distribución de los votos entre ambas opciones para el par actual
     function registrarVoto(casoSeleccionado, casoNoSeleccionado) {
-      casos[casoSeleccionado].conteo++;
-      const totalVotos = casos[casoSeleccionado].conteo + casos[casoNoSeleccionado].conteo;
+    fetch('/api/actualizar-conteo', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: casos[casoSeleccionado].id })
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          casos[casoSeleccionado].conteo = data.conteo; // Update the local copy of the case
+          const totalVotos = casos[casoSeleccionado].conteo + casos[casoNoSeleccionado].conteo;
+  
+          const porcentajeA = Math.round((casos[casoSeleccionado].conteo / totalVotos) * 100);
+          const porcentajeB = 100 - porcentajeA;
+  
+          const metricasContenedor = document.getElementById('metricas-container');
+          const botonContinuar = document.getElementById('continue-button');
+  
+          const metricasHTML = `
+            <div class="percentage-bars">
+              <div class="bar bar-left" style="width: ${porcentajeA}%;"></div>
+              <div class="bar bar-right" style="width: ${porcentajeB}%;"></div>
+            </div>
+            <div class="percentage-labels">
+              <span><strong>${porcentajeA}%</strong> eligieron <strong>${casos[casoSeleccionado].nombre}</strong></span>
+              <span><strong>${porcentajeB}%</strong> eligieron <strong>${casos[casoNoSeleccionado].nombre}</strong></span>
+            </div>
+          `;
+          metricasContenedor.innerHTML = metricasHTML;
+  
+          const caseBoxes = document.querySelectorAll('.case');
+          caseBoxes.forEach((box) => {
+            box.onclick = null; // Disable further clicks
+            box.classList.add('disabled');
+          });
+  
+          botonContinuar.style.display = 'block';
+          botonContinuar.onclick = avanzarAlSiguientePar;
+        } else {
+          console.error(data.message);
+        }
+      })
+      .catch(error => console.error('Error al actualizar conteo:', error));
+  }
 
-      const porcentajeA = Math.round((casos[casoSeleccionado].conteo / totalVotos) * 100);
-      const porcentajeB = 100 - porcentajeA;
-
-      const metricasContenedor = document.getElementById('metricas-container');
-      const botonContinuar = document.getElementById('continue-button');
-
-      const metricasHTML = `
-        <div class="percentage-bars">
-          <div class="bar bar-left" style="width: ${porcentajeA}%;"></div>
-          <div class="bar bar-right" style="width: ${porcentajeB}%;"></div>
-        </div>
-        <div class="percentage-labels">
-          <span><strong>${porcentajeA}%</strong> eligieron <strong>${casos[casoSeleccionado].nombre}</strong></span>
-          <span><strong>${porcentajeB}%</strong> eligieron <strong>${casos[casoNoSeleccionado].nombre}</strong></span>
-        </div>
-      `;
-      metricasContenedor.innerHTML = metricasHTML;
-
-      const caseBoxes = document.querySelectorAll('.case');
-      caseBoxes.forEach((box) => {
-        box.onclick = null;
-        box.classList.add('disabled');
-      });
-
-      botonContinuar.style.display = 'block';
-      botonContinuar.onclick = avanzarAlSiguientePar;
-    }
 
     // Funcion avanzarAlSiguientePar()
     // Función para cambiar de par una vez se vota
