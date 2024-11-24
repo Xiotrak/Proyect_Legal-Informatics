@@ -62,20 +62,36 @@ document.addEventListener('DOMContentLoaded', () => {
     //Se limpia la información del contenedor y se verifica no estar en caso límite
     //El par actual de casos (en base al indice) se añade al container mostrando su nombre y descripción
     //Si ya no hay más pares de casos, oculta botones de selección y muestra boton para cambiar de html
+    //En el caso de haber casos impares, el último caso no tiene a quien comparar, no se mostrará
+    //Extra: Se incluyo un botón para volver a la sección de inicio de la página
     function mostrarCasos() {
       const container = document.getElementById('casos-container');
       const botonesSeleccion = document.getElementById('botones-seleccion');
       const botonVerTodo = document.getElementById('show-all-btn');
+      const botonHogar = document.getElementById('home-btn');
+      const mensajePage = document.getElementById('main-prompt')
 
       container.innerHTML = '';
 
       if (currentIndex >= randomIndices.length) {
+        mensajePage.style.display = 'none';
         botonesSeleccion.style.display = 'none';
+        botonHogar.style.display = 'none';
         botonVerTodo.style.display = 'block';
         return;
       }
 
       const parActual = randomIndices[currentIndex];
+
+      if (parActual.length < 2 || parActual.some(index => index >= casos.length)) {
+        // Finaliza mostrando los controles correspondientes
+        mensajePage.style.display = 'none';
+        botonesSeleccion.style.display = 'none';
+        botonHogar.style.display = 'none';
+        botonVerTodo.style.display = 'block';
+        return;
+      }
+
       parActual.forEach(index => {
         if (index < casos.length) {
           const caso = casos[index];
@@ -86,6 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
     }
+    
     //---------------------------------------------------------------------------------------------------------------------------------
     //Función registrarSeleccion(opción):
     //Se registra la selección del usuario dependiendo de la posición en el par de casos (par_casos[posición]) 
@@ -125,6 +142,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('show-all-btn').addEventListener('click', () => {
       window.location.href = 'todos-los-casos.html';
     });
+
+    document.getElementById('home-btn').addEventListener('click', () => {
+      window.location.href = 'welcome.html';
+    });
   }
 
 //---------------------------------------------------------------------------------------------------------------------------------
@@ -142,7 +163,6 @@ document.addEventListener('DOMContentLoaded', () => {
           const casoDiv = document.createElement('div');
           casoDiv.classList.add('caso');
           casoDiv.innerHTML = `<h2>${caso.nombre}</h2>
-                              <p>${caso.descripcion}</p>
                               <p><strong>Veces seleccionado:</strong> ${caso.conteo}</p>`;
           container.appendChild(casoDiv);
         });
