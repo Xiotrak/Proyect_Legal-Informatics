@@ -9,14 +9,9 @@
 </head>
 
 <body>
-  <h1>Moral Law</h1>
+  <h1>Law Machine</h1>
   <p id="main-prompt">¿Cuál caso consideras que es más grave?:</p>
   <div id="casos-container"></div>
-
-  <div id="botones-seleccion">
-    <button id="opcion-1-btn">Seleccionar Opción 1</button>
-    <button id="opcion-2-btn">Seleccionar Opción 2</button>
-  </div>
 
   <button id="home-btn">Regresar al inicio</button>
   
@@ -24,9 +19,16 @@
     <button id="show-all-btn" style="display: none;" onclick="window.location.href='todos-los-casos.html';">Resumen Final</button>
   </div>
   
+  <div id="metricas-container"></div> <!-- Added for displaying metrics -->
+  <button id="continue-button" style="display: none;">Continuar</button>
+
+  <div id="grafico-container" style="display: none;">
+    <canvas id="grafico-votos"></canvas>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="script.js"></script>
 </body>
 
 </html>
+
