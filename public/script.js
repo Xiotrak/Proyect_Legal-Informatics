@@ -127,11 +127,23 @@ document.addEventListener('DOMContentLoaded', () => {
       botonContinuar.onclick = avanzarAlSiguientePar;
     }
 
-    // Función para cambiar de par
+    // Funcion avanzarAlSiguientePar()
+    // Función para cambiar de par una vez se vota
+    // Simula un tiempo de carga de 2 segundos antes de mostrar el siguiente par para evitar spamming
     function avanzarAlSiguientePar() {
-      currentIndex++;
-      mostrarCasos();
+      const loadingIndicator = document.getElementById('loading-indicator');
+      
+      // Mostrar el indicador de carga
+      loadingIndicator.style.display = 'flex';
+    
+      // Ocultar el indicador de carga y seguir después de 2 segundos
+      setTimeout(() => {
+        loadingIndicator.style.display = 'none';
+        currentIndex++;
+        mostrarCasos();
+      }, 1500);
     }
+    
 
     // Función mostrarGráfico()
     // Función para mostrar el ranking de los casos entre todos los casos

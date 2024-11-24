@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agregar Caso</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- ------------------------------------------------------------------------------------------------ -->
     <style>
         form {
             max-width: 400px;
@@ -21,28 +20,12 @@
             margin-bottom: 10px;
             font-weight: bold;
         }
-        input, textarea, button {
+        input, textarea {
             width: 100%;
             padding: 8px;
             margin-bottom: 15px;
             border: 1px solid #ccc;
             border-radius: 5px;
-        }
-        button {
-            display: block; /* Necesario para usar margin auto */
-            margin: 20px auto; /* Centra horizontalmente */
-            padding: 0.5rem 1rem;
-            font-size: 20px; /* Tamaño de fuente */
-            background-color: #747474;
-            color: white;
-            border: 3px solid #000000;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s; /* Animación suave */
-            /*background-color: #28a745;*/
-        }
-        button:hover {
-            background-color: #2ed164;
         }
     </style>
 </head>
@@ -62,34 +45,32 @@
     <br>
     <button id="home-btn">Regresar al inicio</button>
 
-    <!-- ------------------------------------------------------------------------------------------------ -->
     <script>
         const form = document.getElementById('form-caso');
         form.addEventListener('submit', async (event) => {
-        event.preventDefault();
+            event.preventDefault();
 
-        const nombre = document.getElementById('nombre').value;
-        const descripcion = document.getElementById('descripcion').value;
+            const nombre = document.getElementById('nombre').value;
+            const descripcion = document.getElementById('descripcion').value;
 
-        const response = await fetch('/api/agregar-caso', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nombre, descripcion })
-        });
+            const response = await fetch('/api/agregar-caso', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nombre, descripcion }),
+            });
 
-        if (response.ok) {
-            alert('Caso agregado exitosamente');
-            form.reset();
-        } else {
-            alert('Error al agregar el caso');
-        }
+            if (response.ok) {
+                alert('Caso agregado exitosamente');
+                form.reset();
+            } else {
+                alert('Error al agregar el caso');
+            }
         });
 
         document.getElementById('home-btn').addEventListener('click', () => {
             window.location.href = 'welcome.html';
         });
     </script>
-    <!-- ------------------------------------------------------------------------------------------------ -->
 </body>
 
 </html>
