@@ -17,8 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentIndex = 0;
     let randomIndices = [];
 
-    // Sección para sacar la info del servidor, generar
-    // nuevos indices y mostrar el primer par de casos
+    // Fetch cases from the server
     fetch('/api/casos')
       .then(response => response.json())
       .then(data => {
@@ -28,9 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       .catch(error => console.error('Error al cargar los casos:', error));
 
-    //Función generarIndicesAleatorios():
-    //Se genera una lista de índices aleatorios para ordenar en pares
-    //Se usa el largo del listado de casos como techo para el num
+    // Generate random pairs of indices
     function generarIndicesAleatorios() {
       const numCasos = casos.length;
       const indices = Array.from({ length: numCasos }, (_, i) => i);
@@ -41,17 +38,19 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       for (let i = 0; i < indices.length; i += 2) {
-        randomIndices.push(indices.slice(i, i + 2));
+        if (indices[i + 1] !== undefined) {
+          randomIndices.push([indices[i], indices[i + 1]]);
+        }
       }
     }
 
-    //Función mostrarCasos():
-    //Se utiliza para mostrar los casos de a pares, siempre y cuando el indice no sea mayor a la cantidad de casos
-    //Se limpia la información del contenedor y se verifica no estar en caso límite
-    //El par actual de casos (en base al indice) se añade al container mostrando su nombre y descripción
-    //Si ya no hay más pares de casos, oculta botones de selección y muestra boton para cambiar de html
-    //En el caso de haber casos impares, el último caso no tiene a quien comparar, no se mostrará
-    //Extra: Se incluyo un botón para volver a la sección de inicio de la página
+    // Función mostrarCasos():
+    // Se utiliza para mostrar los casos de a pares, siempre y cuando el indice no sea mayor a la cantidad de casos
+    // Se limpia la información del contenedor y se verifica no estar en caso límite
+    // El par actual de casos (en base al indice) se añade al container mostrando su nombre y descripción
+    // Si ya no hay más pares de casos, oculta botones de selección y muestra boton para cambiar de html
+    // En el caso de haber casos impares, el último caso no tiene a quien comparar, no se mostrará
+    // Extra: Se incluyo un botón para volver a la sección de inicio de la página
     function mostrarCasos() {
       const container = document.getElementById('casos-container');
       const metricasContenedor = document.getElementById('metricas-container');
@@ -61,16 +60,11 @@ document.addEventListener('DOMContentLoaded', () => {
       botonContinuar.style.display = 'none';
 
       if (currentIndex >= randomIndices.length) {
-        mostrarGrafico();
+        mostrarGrafico(); // Show final graph if no more pairs
         return;
       }
 
       const parActual = randomIndices[currentIndex];
-      if (parActual.length < 2 || parActual.some(index => index >= casos.length)) {
-        mostrarGrafico();
-        return;
-      }
-
       const [indiceA, indiceB] = parActual;
       const casoA = crearElementoCaso(casos[indiceA], indiceA);
       const casoB = crearElementoCaso(casos[indiceB], indiceB);
@@ -85,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 0);
     }
 
-    // Función crearElementoCaso
+    // Función crearElementoCaso(caso)
     // Se utiliza para crear un elemento que contiene un caso dentro de la Law Machine
     function crearElementoCaso(caso) {
       const casoDiv = document.createElement('div');
@@ -101,7 +95,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Se registra la selección del usuario en la votación de los casos dependiendo de los parámetros de la función 
     // Se identifica el par de casos usando los parámetros como indice, se hace un chequeo en caso de terminar de ver todos los casos
     // Una vez registrada la selección se muestra una barra de porcentaje que informa al usuario de la distribución de los votos entre ambas opciones para el par actual
-    // No se puede cambiar la selección una vez registrado el voto
     function registrarVoto(casoSeleccionado, casoNoSeleccionado) {
       casos[casoSeleccionado].conteo++;
       const totalVotos = casos[casoSeleccionado].conteo + casos[casoNoSeleccionado].conteo;
@@ -112,7 +105,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const metricasContenedor = document.getElementById('metricas-container');
       const botonContinuar = document.getElementById('continue-button');
 
-      // Código para mostra la barra de porcentages
       const metricasHTML = `
         <div class="percentage-bars">
           <div class="bar bar-left" style="width: ${porcentajeA}%;"></div>
@@ -134,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
       botonContinuar.style.display = 'block';
       botonContinuar.onclick = avanzarAlSiguientePar;
     }
-    
+
     // Función para cambiar de par
     function avanzarAlSiguientePar() {
       currentIndex++;
@@ -154,13 +146,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       graficoContenedor.style.display = 'block';
 
-      // Código para extraer el conteo de votos y ordenarlo
       const ctx = document.getElementById('grafico-votos').getContext('2d');
       const sortedData = [...casos].sort((a, b) => b.conteo - a.conteo);
       const nombres = sortedData.map(caso => caso.nombre);
       const votos = sortedData.map(caso => caso.conteo);
 
-      // Código para mostrar el ranking
       new Chart(ctx, {
         type: 'bar',
         data: {
@@ -181,6 +171,11 @@ document.addEventListener('DOMContentLoaded', () => {
         },
       });
     }
+
+    // Botón para volver a la página de inicio
+    document.getElementById('home-btn').addEventListener('click', () => {
+        window.location.href = 'welcome.html';
+    });
   }
 
   //---------------------------------------------------------------------------------------------------------------------------------
@@ -202,8 +197,6 @@ document.addEventListener('DOMContentLoaded', () => {
           container.appendChild(casoDiv);
         });
       })
-      // Reinicia el proceso volviendo a la página principal, el chequeo inicial
-      // invoca la función que reinicia el proceso sin perder el conteo de elecciones
       .catch(error => console.error('Error al cargar los casos:', error));
   }
 });

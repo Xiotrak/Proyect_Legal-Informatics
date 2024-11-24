@@ -2,17 +2,25 @@
 /* Estilos para atributos generales */
 body {
   font-family: Arial, sans-serif;
-  background-color: #eeeeee;
+
+  background-color: #f4f4f4;
   margin: 0;
   padding: 0;
   text-align: center;
 }
+
 h1 {
   font-size: 2.8rem; /* Make the title larger */
   text-align: center;
   margin: 1rem 0;
-  color: #000000;
+  color: #333;
 }
+
+#main-prompt {
+  font-size: 1.5rem; /* Increase the prompt size */
+  text-align: center;
+  margin: 1rem 0;
+  color: #555;
 /*----------------------------------------------------------------------------------------------------------------------------------*/
 
 
@@ -54,55 +62,33 @@ h1 {
   text-align: center; /* Centra el contenido dentro del div (opcional) */
   padding: 20px;
   border: 1px solid #ddd;
+
 }
 /*----------------------------------------------------------------------------------------------------------------------------------*/
 
+
 /*----------------------------------------------------------------------------------------------------------------------------------*/
 /* Estilo para la información de los casos */
-.caso {
+.case {
   border: 5px solid #000000;
   border-radius: 8px;
   background-color: #a3f7ff;
-  box-shadow: 0 2px 4px #000000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 45%;
   text-align: center;
   padding: 1rem;
   margin: 1rem;
-  cursor: default;
+  cursor: pointer;
   transition: transform 0.2s, background-color 0.2s;
 }
+
+.case:hover {
+  transform: scale(1.02);
+  background-color: #f9f9f9;
+}
 /*----------------------------------------------------------------------------------------------------------------------------------*/
 
 /*----------------------------------------------------------------------------------------------------------------------------------*/
-/* Estilo para los botones */
-#opcion-1-btn {
-  padding: 0.5rem 1rem;
-  font-size: 20px; /* Tamaño de fuente */
-  background-color: #747474;
-  color: white;
-  border: 3px solid #000000;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s; /* Animación suave */
-}
-#opcion-1-btn:hover {
-  background-color: #2ec6d1; /* Color de fondo al pasar el mouse */
-}
-
-#opcion-2-btn {
-  padding: 0.5rem 1rem;
-  font-size: 20px; /* Tamaño de fuente */
-  background-color: #747474;
-  color: white;
-  border: 3px solid #000000;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s; /* Animación suave */
-}
-#opcion-2-btn:hover {
-  background-color: #2ec6d1; /* Color de fondo al pasar el mouse */
-}
-
 #show-all-btn {
   display: block; /* Necesario para usar margin auto */
   margin: 0 auto; /* Centra horizontalmente */
@@ -204,6 +190,121 @@ h1 {
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s; /* Animación suave */
+=======
+.case.disabled {
+  pointer-events: none;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.buttons {
+  margin-top: 1rem;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Estilo para las metricas */
+#metricas-container {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Estilo para el ranking de los graficos */
+#grafico-container {
+  margin: 2rem auto;
+  max-width: 600px;
+  text-align: center;
+}
+
+#grafico-votos {
+  width: 100%;
+  height: 400px;
+}
+
+/* Estilo para el boton de continuar*/
+#continue-button {
+  display: block;
+  margin: 1rem auto;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#continue-button:hover {
+  background-color: #0056b3;
+}
+
+.case-label-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Estilo para las barras de porcentage */
+.percentage-bars {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  height: 30px;
+  max-width: 45%;
+  margin: 1rem auto;
+  background-color: #e0e0e0;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.bar-left {
+  background-color: rgba(0, 123, 255, 0.6);
+  height: 100%;
+  transition: width 0.5s ease;
+  transform-origin: right;
+}
+
+.bar-right {
+  background-color: rgba(255, 87, 51, 0.6);
+  height: 100%;
+  transition: width 0.5s ease;
+  transform-origin: left;
+}
+
+
+.percentage-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  color: #333;
+}
+
+.percentage-labels span {
+  flex: 1;
+  text-align: center;
 }
 .welcome-container button:hover {
   background-color: #0056b3;
