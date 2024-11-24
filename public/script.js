@@ -53,32 +53,29 @@ document.addEventListener('DOMContentLoaded', () => {
     // Extra: Se incluyo un botón para volver a la sección de inicio de la página
     function mostrarCasos() {
       const container = document.getElementById('casos-container');
-      const metricasContenedor = document.getElementById('metricas-container');
-      const botonContinuar = document.getElementById('continue-button');
       container.innerHTML = '';
-      metricasContenedor.innerHTML = '';
-      botonContinuar.style.display = 'none';
-
+    
       if (currentIndex >= randomIndices.length) {
-        mostrarGrafico(); // Show final graph if no more pairs
+        inicializarTodosLosCasos();
+        window.location.href = 'todos-los-casos.html';
         return;
       }
-
+    
       const parActual = randomIndices[currentIndex];
-      const [indiceA, indiceB] = parActual;
-      const casoA = crearElementoCaso(casos[indiceA], indiceA);
-      const casoB = crearElementoCaso(casos[indiceB], indiceB);
-
+      const [indiceIzquierdo, indiceDerecho] = parActual;
+      const casoA = crearElementoCaso(casos[indiceIzquierdo], indiceIzquierdo);
+      const casoB = crearElementoCaso(casos[indiceDerecho], indiceDerecho);
+    
       container.appendChild(casoA);
       container.appendChild(casoB);
-
+    
       setTimeout(() => {
-        casoA.onclick = () => registrarVoto(indiceA, indiceB);
-        casoB.onclick = () => registrarVoto(indiceB, indiceA);
-        console.log('Event listeners attached to cases.');
+        casoA.onclick = () => registrarVoto(indiceIzquierdo, indiceDerecho, 0);
+        casoB.onclick = () => registrarVoto(indiceDerecho, indiceIzquierdo, 1);
+        console.log("Event listeners attached to cases.");
       }, 0);
     }
-
+    
     // Función crearElementoCaso(caso)
     // Se utiliza para crear un elemento que contiene un caso dentro de la Law Machine
     function crearElementoCaso(caso) {
@@ -95,47 +92,61 @@ document.addEventListener('DOMContentLoaded', () => {
     // Se registra la selección del usuario en la votación de los casos dependiendo de los parámetros de la función 
     // Se identifica el par de casos usando los parámetros como indice, se hace un chequeo en caso de terminar de ver todos los casos
     // Una vez registrada la selección se muestra una barra de porcentaje que informa al usuario de la distribución de los votos entre ambas opciones para el par actual
-    function registrarVoto(casoSeleccionado, casoNoSeleccionado) {
-    const key = generarClave(casoSeleccionado, casoNoSeleccionado);
-    casos[casoSeleccionado].conteo++;
-  
-    const totalVotos = casos[casoSeleccionado].conteo + casos[casoNoSeleccionado].conteo;
-  
-    const porcentajeSeleccionado = Math.round((casos[casoSeleccionado].conteo / totalVotos) * 100);
-    const porcentajeNoSeleccionado = 100 - porcentajeSeleccionado;
-  
-    const metricasContenedor = document.getElementById('metricas-container');
-    const botonContinuar = document.getElementById('continue-button');
-  
-    const casoSeleccionadoNombre = casos[casoSeleccionado].nombre;
-    const casoNoSeleccionadoNombre = casos[casoNoSeleccionado].nombre;
-  
-    const displayedOrder = [casoSeleccionado, casoNoSeleccionado]; // Match display order
-    const [leftCase, rightCase] = displayedOrder;
-    const leftPercentage = casoSeleccionado === leftCase ? porcentajeSeleccionado : porcentajeNoSeleccionado;
-    const rightPercentage = casoSeleccionado === rightCase ? porcentajeSeleccionado : porcentajeNoSeleccionado;
+    function registrarVoto(casoSeleccionado, casoNoSeleccionado, posicion) {
+      fetch('/api/actualizar-conteo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: casos[casoSeleccionado].id })
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            casos[casoSeleccionado].conteo = data.conteo; // Update the local copy of the case
+            const totalVotos =
+              casos[casoSeleccionado].conteo + casos[casoNoSeleccionado].conteo;
     
-    const metricasHTML = `
-      <div class="percentage-bars">
-        <div class="bar bar-left" style="width: ${leftPercentage}%;"></div>
-        <div class="bar bar-right" style="width: ${rightPercentage}%;"></div>
-      </div>
-      <div class="percentage-labels">
-        <span><strong>${leftPercentage}%</strong> eligieron <strong>${casos[leftCase].nombre}</strong></span>
-        <span><strong>${rightPercentage}%</strong> eligieron <strong>${casos[rightCase].nombre}</strong></span>
-      </div>
-    `;
-    metricasContenedor.innerHTML = metricasHTML;
-  
-    const caseBoxes = document.querySelectorAll('.case');
-    caseBoxes.forEach((box) => {
-      box.onclick = null;
-      box.classList.add('disabled');
-    });
-  
-    botonContinuar.style.display = 'block';
-    botonContinuar.onclick = avanzarAlSiguientePar;
-  }
+            // Determine percentages
+            const porcentajeSeleccionado = Math.round(
+              (casos[casoSeleccionado].conteo / totalVotos) * 100
+            );
+            const porcentajeNoSeleccionado = 100 - porcentajeSeleccionado;
+    
+            // Ensure correct bar placement
+            const porcentajeIzquierdo = posicion === 0 ? porcentajeSeleccionado : porcentajeNoSeleccionado;
+            const porcentajeDerecho = posicion === 1 ? porcentajeSeleccionado : porcentajeNoSeleccionado;
+    
+            const metricasContenedor = document.getElementById('metricas-container');
+            const botonContinuar = document.getElementById('continue-button');
+    
+            const metricasHTML = `
+              <div class="percentage-bars">
+                <div class="bar bar-left" style="width: ${porcentajeIzquierdo}%;"></div>
+                <div class="bar bar-right" style="width: ${porcentajeDerecho}%;"></div>
+              </div>
+              <div class="percentage-labels">
+                <span><strong>${porcentajeIzquierdo}%</strong> eligieron <strong>${casos[0].nombre}</strong></span>
+                <span><strong>${porcentajeDerecho}%</strong> eligieron <strong>${casos[1].nombre}</strong></span>
+              </div>
+            `;
+            metricasContenedor.innerHTML = metricasHTML;
+    
+            // Disable further clicks
+            const caseBoxes = document.querySelectorAll('.case');
+            caseBoxes.forEach((box) => {
+              box.onclick = null;
+              box.classList.add('disabled');
+            });
+    
+            // Show "Continue" button
+            botonContinuar.style.display = 'block';
+            botonContinuar.onclick = avanzarAlSiguientePar;
+          } else {
+            console.error(data.message);
+          }
+        })
+        .catch(error => console.error('Error al actualizar conteo:', error));
+    }
+    
 
     // Funcion avanzarAlSiguientePar()
     // Función para cambiar de par una vez se vota
