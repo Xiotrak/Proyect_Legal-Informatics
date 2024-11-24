@@ -233,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
     // Clear session storage at the end
     sessionStorage.clear();
-  }
+  } 
 
   
 
