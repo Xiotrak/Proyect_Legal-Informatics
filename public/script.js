@@ -132,43 +132,84 @@ document.addEventListener('DOMContentLoaded', () => {
     // Simula un tiempo de carga de 2 segundos antes de mostrar el siguiente par para evitar spamming
     function avanzarAlSiguientePar() {
       const loadingIndicator = document.getElementById('loading-indicator');
-      
+    
       // Mostrar el indicador de carga
       loadingIndicator.style.display = 'flex';
     
-      // Ocultar el indicador de carga y seguir después de 2 segundos
+      // Ocultar el indicador de carga y continuar después de 1.5 segundos
       setTimeout(() => {
         loadingIndicator.style.display = 'none';
         currentIndex++;
-        mostrarCasos();
+    
+        if (currentIndex >= randomIndices.length) {
+          // Guardar datos de conteo en localStorage
+          localStorage.setItem('conteoData', JSON.stringify(casos));
+    
+          // Redirigir a todos-los-casos.html al completar
+          window.location.href = 'todos-los-casos.html';
+        } else {
+          mostrarCasos();
+        }
       }, 1500);
     }
     
+    // Botón para volver a la página de inicio
+    document.getElementById('home-btn').addEventListener('click', () => {
+      window.location.href = 'welcome.html';
+    });
+  }    
 
-    // Función mostrarGráfico()
-    // Función para mostrar el ranking de los casos entre todos los casos
-    // Permite que los usuarios puedan ver cuales crimenes/delitos se consideraron como los mas graves en general
-    function mostrarGrafico() {
-      const graficoContenedor = document.getElementById('grafico-container');
-      const prompt = document.getElementById('main-prompt');
-
-      if (prompt) {
-        prompt.textContent = 'Ranking de casos';
-      }
-
-      graficoContenedor.style.display = 'block';
-
-      const ctx = document.getElementById('grafico-votos').getContext('2d');
-      const sortedData = [...casos].sort((a, b) => b.conteo - a.conteo);
-      const nombres = sortedData.map(caso => caso.nombre);
-      const votos = sortedData.map(caso => caso.conteo);
-
+  //---------------------------------------------------------------------------------------------------------------------------------
+  // Función que se ejecuta para todos-los-casos.html
+  // Tambien muestra el grafico de ranking
+  function inicializarTodosLosCasos() {
+    const container = document.getElementById('todos-casos-container');
+    const ctx = document.getElementById('grafico-votos').getContext('2d');
+  
+    // Retrieve updated data from localStorage if available
+    const conteoData = JSON.parse(localStorage.getItem('conteoData'));
+  
+    // If localStorage has data, use it; otherwise, fetch from server
+    if (conteoData && conteoData.length > 0) {
+      renderCasosAndGraph(conteoData);
+    } else {
+      // Fetch cases from the server as a fallback
+      fetch('/api/casos')
+        .then(response => response.json())
+        .then(casos => {
+          renderCasosAndGraph(casos);
+        })
+        .catch(error => console.error('Error al cargar los casos:', error));
+    }
+  
+    // Function to render cases and graph
+    function renderCasosAndGraph(casos) {
+      // Clear the container
+      container.innerHTML = '';
+  
+      // Render the cases
+      casos.forEach(caso => {
+        const casoDiv = document.createElement('div');
+        casoDiv.classList.add('caso');
+        casoDiv.innerHTML = `
+          <h2>${caso.nombre}</h2>
+          <p><strong>Veces seleccionado:</strong> ${caso.conteo}</p>
+        `;
+        container.appendChild(casoDiv);
+      });
+  
+      // Sort cases by votes for the graph
+      const sortedCasos = [...casos].sort((a, b) => b.conteo - a.conteo);
+      const nombres = sortedCasos.map(caso => caso.nombre);
+      const votos = sortedCasos.map(caso => caso.conteo);
+  
+      // Render the graph
       new Chart(ctx, {
         type: 'bar',
         data: {
           labels: nombres,
           datasets: [{
-            label: 'Casos más votados como severos',
+            label: 'Veces seleccionado',
             data: votos,
             backgroundColor: 'rgba(75, 192, 192, 0.6)',
             borderColor: 'rgba(75, 192, 192, 1)',
@@ -183,32 +224,10 @@ document.addEventListener('DOMContentLoaded', () => {
         },
       });
     }
-
-    // Botón para volver a la página de inicio
-    document.getElementById('home-btn').addEventListener('click', () => {
-        window.location.href = 'welcome.html';
+  
+    // Add functionality to the return button
+    document.getElementById('volver-btn').addEventListener('click', () => {
+      window.location.href = 'welcome.html';
     });
-  }
-
-  //---------------------------------------------------------------------------------------------------------------------------------
-  // Función que se ejecuta para todos-los-casos.html
-  function inicializarTodosLosCasos() {
-    const container = document.getElementById('todos-casos-container');
-
-    // Se obtienen todos los casos y se ordenan en cierto formato html
-    fetch('/api/casos')
-      .then(response => response.json())
-      .then(data => {
-        data.forEach(caso => {
-          const casoDiv = document.createElement('div');
-          casoDiv.classList.add('caso');
-          casoDiv.innerHTML = `
-            <h2>${caso.nombre}</h2>
-            <p><strong>Veces seleccionado:</strong> ${caso.conteo}</p>
-          `;
-          container.appendChild(casoDiv);
-        });
-      })
-      .catch(error => console.error('Error al cargar los casos:', error));
-  }
+  }  
 });
