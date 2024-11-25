@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentIndex = 0;
     let randomIndices = [];
 
-    // Fetch cases from the server
     fetch('/api/casos')
       .then(response => response.json())
       .then(data => {
@@ -29,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       .catch(error => console.error('Error al cargar los casos:', error));
 
-    // Generate random pairs of indices
     function generarIndicesAleatorios() {
       const numCasos = casos.length;
       const indices = Array.from({ length: numCasos }, (_, i) => i);
@@ -103,23 +101,20 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(data => {
           if (data.success) {
-            casos[casoSeleccionado].conteo = data.conteo; // Update the local copy of the case
+            casos[casoSeleccionado].conteo = data.conteo;
             const totalVotos =
               casos[casoSeleccionado].conteo + casos[casoNoSeleccionado].conteo;
     
-            // Determine percentages
             const porcentajeSeleccionado = Math.round(
               (casos[casoSeleccionado].conteo / totalVotos) * 100
             );
             const porcentajeNoSeleccionado = 100 - porcentajeSeleccionado;
     
-            // Ensure correct bar placement
             const porcentajeIzquierdo =
               posicion === 0 ? porcentajeSeleccionado : porcentajeNoSeleccionado;
             const porcentajeDerecho =
               posicion === 1 ? porcentajeSeleccionado : porcentajeNoSeleccionado;
     
-            // Assign names to the correct sides
             const nombreIzquierdo =
               posicion === 0
                 ? casos[casoSeleccionado].nombre
@@ -132,7 +127,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const metricasContenedor = document.getElementById('metricas-container');
             const botonContinuar = document.getElementById('continue-button');
     
-            // Use the actual case names for the labels
             const metricasHTML = `
               <div class="percentage-bars">
                 <div class="bar bar-left" style="width: ${porcentajeIzquierdo}%;"></div>
@@ -145,18 +139,16 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             metricasContenedor.innerHTML = metricasHTML;
     
-            // Disable further clicks
             const caseBoxes = document.querySelectorAll('.case');
             caseBoxes.forEach((box) => {
               box.onclick = null;
               box.classList.add('disabled');
             });
     
-            // Show "Continue" button
             botonContinuar.style.display = 'block';
             botonContinuar.onclick = () => {
-              metricasContenedor.innerHTML = ''; // Clear metrics
-              botonContinuar.style.display = 'none'; // Hide the button
+              metricasContenedor.innerHTML = '';
+              botonContinuar.style.display = 'none';
               avanzarAlSiguientePar();
             };
           } else {
@@ -207,14 +199,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById('todos-casos-container');
     const ctx = document.getElementById('grafico-votos').getContext('2d');
   
-    // Retrieve updated data from localStorage if available
     const conteoData = JSON.parse(localStorage.getItem('conteoData'));
   
-    // If localStorage has data, use it; otherwise, fetch from server
     if (conteoData && conteoData.length > 0) {
       renderCasosAndGraph(conteoData);
     } else {
-      // Fetch cases from the server as a fallback
       fetch('/api/casos')
         .then(response => response.json())
         .then(casos => {
@@ -223,12 +212,9 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(error => console.error('Error al cargar los casos:', error));
     }
   
-    // Function to render cases and graph
     function renderCasosAndGraph(casos) {
-      // Clear the container
       container.innerHTML = '';
   
-      // Render the cases
       casos.forEach(caso => {
         const casoDiv = document.createElement('div');
         casoDiv.classList.add('caso');
@@ -239,12 +225,10 @@ document.addEventListener('DOMContentLoaded', () => {
         container.appendChild(casoDiv);
       });
   
-      // Sort cases by votes for the graph
       const sortedCasos = [...casos].sort((b, a) => b.conteo - a.conteo);
       const nombres = sortedCasos.map(caso => caso.nombre);
       const votos = sortedCasos.map(caso => caso.conteo);
   
-      // Render the graph
       new Chart(ctx, {
         type: 'bar',
         data: {
@@ -272,11 +256,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  // Función que se ejecuta para listado-casos.html
 function inicializarInfoCasos() {
   const container = document.getElementById('todos-casos-container');
 
-  // Se obtienen todos los casos y se ordenan en cierto formato HTML
   fetch('/api/casos')
     .then(response => response.json())
     .then(data => {
@@ -292,13 +274,11 @@ function inicializarInfoCasos() {
         container.appendChild(casoDiv);
       });
 
-      // Agregar eventos a los botones de eliminar
       const eliminarBtns = document.querySelectorAll('.eliminar-btn');
       eliminarBtns.forEach(btn => {
         btn.addEventListener('click', (event) => {
           const casoId = event.target.dataset.id;
 
-          // Confirmar antes de eliminar
           if (confirm('¿Estás seguro de que deseas eliminar este caso?')) {
             fetch(`/api/casos/${casoId}`, {
               method: 'DELETE'
@@ -306,7 +286,7 @@ function inicializarInfoCasos() {
               .then(response => {
                 if (response.ok) {
                   alert('Caso eliminado correctamente.');
-                  window.location.reload(); // Recargar para reflejar cambios
+                  window.location.reload();
                 } else {
                   response.json().then(data => alert(data.message || 'Error al eliminar el caso.'));
                 }
@@ -316,19 +296,16 @@ function inicializarInfoCasos() {
         });
       });
 
-      // Agregar eventos a los botones de editar
       const editarBtns = document.querySelectorAll('.editar-btn');
       editarBtns.forEach(btn => {
         btn.addEventListener('click', (event) => {
           const casoId = event.target.dataset.id;
           const caso = data.find(c => c.id == casoId);
 
-          // Mostrar formulario para editar
           const nuevoNombre = prompt('Nuevo nombre:', caso.nombre);
           const nuevaDescripcion = prompt('Nueva descripción:', caso.descripcion);
 
           if (nuevoNombre && nuevaDescripcion) {
-            // Enviar la solicitud para actualizar el caso
             fetch(`/api/editar-caso/${casoId}`, {
               method: 'PUT',
               headers: { 'Content-Type': 'application/json' },
@@ -337,7 +314,7 @@ function inicializarInfoCasos() {
               .then(response => {
                 if (response.ok) {
                   alert('Caso actualizado correctamente.');
-                  window.location.reload(); // Recargar para reflejar cambios
+                  window.location.reload();
                 } else {
                   alert('Error al actualizar el caso.');
                   response.json().then(data => alert(data.message || 'Error al editar el caso.'));
@@ -354,7 +331,4 @@ function inicializarInfoCasos() {
     window.location.href = 'index.html';
   });
 }
-
-  
-
 });
