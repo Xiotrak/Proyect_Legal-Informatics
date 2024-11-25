@@ -64,6 +64,28 @@ app.post('/api/actualizar-conteo', (req, res) => {
   }
 });
 
+// CRUD - Update: Editar el nombre y la descripción de un caso
+app.put('/api/editar-caso/:id', (req, res) => {
+  const casoId = parseInt(req.params.id);
+  const { nombre, descripcion } = req.body;
+
+  if (!nombre || !descripcion) {
+    return res.status(400).send('Nombre y descripción son obligatorios');
+  }
+
+  const caso = casos.find(c => c.id === casoId);
+
+  if (caso) {
+    caso.nombre = nombre;
+    caso.descripcion = descripcion;
+    console.log(`El caso "${caso.nombre}" ha sido actualizado.`);
+    res.status(200).send('Caso actualizado exitosamente');
+  } else {
+    res.status(404).send('Caso no encontrado');
+  }
+});
+
+
 //---------------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------------
 
@@ -84,6 +106,24 @@ app.post('/api/agregar-caso', (req, res) => {
   
   res.status(201).send('Caso agregado exitosamente');
 });
+
+//---------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------
+
+// CRUD - Delete: sección usada para eliminar un caso
+app.delete('/api/casos/:id', (req, res) => {
+  const casoId = parseInt(req.params.id);
+  console.log(`ID recibido para eliminar: ${casoId}`); // Diagnóstico
+  const index = casos.findIndex(caso => caso.id === casoId);
+
+  if (index !== -1) {
+    casos.splice(index, 1);
+    res.status(200).send({ message: 'Caso eliminado exitosamente' });
+  } else {
+    res.status(404).send({ message: 'Caso no encontrado' });
+  }
+});
+
 
 //---------------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------------
