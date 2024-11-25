@@ -105,15 +105,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const totalVotos =
               casos[casoSeleccionado].conteo + casos[casoNoSeleccionado].conteo;
     
-            // Determine percentages
             const porcentajeSeleccionado = Math.round(
               (casos[casoSeleccionado].conteo / totalVotos) * 100
             );
             const porcentajeNoSeleccionado = 100 - porcentajeSeleccionado;
     
-            // Ensure correct bar placement
-            const porcentajeIzquierdo = posicion === 0 ? porcentajeSeleccionado : porcentajeNoSeleccionado;
-            const porcentajeDerecho = posicion === 1 ? porcentajeSeleccionado : porcentajeNoSeleccionado;
+            const porcentajeIzquierdo =
+              posicion === 0 ? porcentajeSeleccionado : porcentajeNoSeleccionado;
+            const porcentajeDerecho =
+              posicion === 1 ? porcentajeSeleccionado : porcentajeNoSeleccionado;
     
             const metricasContenedor = document.getElementById('metricas-container');
             const botonContinuar = document.getElementById('continue-button');
@@ -124,28 +124,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="bar bar-right" style="width: ${porcentajeDerecho}%;"></div>
               </div>
               <div class="percentage-labels">
-                <span><strong>${porcentajeIzquierdo}%</strong> eligieron <strong>${casos[0].nombre}</strong></span>
-                <span><strong>${porcentajeDerecho}%</strong> eligieron <strong>${casos[1].nombre}</strong></span>
+                <span><strong>${porcentajeIzquierdo}%</strong> eligieron <strong>${casos[casoSeleccionado].nombre}</strong></span>
+                <span><strong>${porcentajeDerecho}%</strong> eligieron <strong>${casos[casoNoSeleccionado].nombre}</strong></span>
               </div>
             `;
             metricasContenedor.innerHTML = metricasHTML;
     
-            // Disable further clicks
             const caseBoxes = document.querySelectorAll('.case');
             caseBoxes.forEach((box) => {
               box.onclick = null;
               box.classList.add('disabled');
             });
     
-            // Show "Continue" button
             botonContinuar.style.display = 'block';
-            botonContinuar.onclick = avanzarAlSiguientePar;
+            botonContinuar.onclick = () => {
+              metricasContenedor.innerHTML = '';
+              botonContinuar.style.display = 'none';
+              avanzarAlSiguientePar();
+            };
           } else {
             console.error(data.message);
           }
         })
         .catch(error => console.error('Error al actualizar conteo:', error));
     }
+    
     
 
     // Funcion avanzarAlSiguientePar()
