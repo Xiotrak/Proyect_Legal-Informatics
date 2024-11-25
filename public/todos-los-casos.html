@@ -6,7 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Todos los Casos</title>
   <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="barra.css">
+  <link rel="stylesheet" href="barra.css">
+  <style>
+    p {
+      width: 600px; /* Ancho del recuadro (ajústalo según sea necesario) */
+      margin: 10px auto; /* Centra horizontalmente el recuadro en la página */
+      padding: 10px; /* Espaciado interno dentro del recuadro */
+      border: 1px solid #ccc; /* Borde del recuadro */
+      border-radius: 5px; /* Bordes redondeados (opcional) */
+      background-color: #f9f9f9; /* Fondo del recuadro */
+      text-align: left; /* Alinea el texto a la izquierda */
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra del recuadro (opcional) */
+      line-height: 1.6; /* Espaciado entre líneas */
+      font-family: Arial, sans-serif; /* Fuente del texto */
+      font-size: 16px; /* Tamaño del texto */
+    }
+
+  </style>
 </head>
 
 <body>
@@ -57,12 +73,70 @@
       <option value="opcion16">Valparaíso</option>
       <option value="opcion17" selected="selected">Todas</option>
   </select>
-  <br><br><br><br>
+  <br><br><br><br><div id="volver-container">
+    <button id="volver-btn">Regresar al inicio</button>
+  </div>  
+  <br><br><hr><br><br>
+
+  <div>
+    <h3>Información de los Delitos en el Código Penal de Chile:</h3>
+    <b>Aborto:</b>
+    <p>1.° Con la pena de presidio mayor en su grado mínimo, si ejerciere violencia en la persona de la mujer embarazada.</p>
+    <p>2.° Con la de presidio menor en su grado máximo, si, aunque no la ejerza, obrare sin consentimiento de la mujer.</p>
+    <p>3.° Con la de presidio menor en su grado medio, si la mujer consintiere.</p>
+    <p>Será castigado con presidio menor en sus grados mínimo a medio, el que con violencias ocasionare un aborto, aun cuando no haya tenido propósito de causarlo, con tal que el estado de embarazo de la mujer sea notorio o le constare al hechor.</p>
+    <p>La mujer que, fuera de los casos permitidos por la ley, causare su aborto o consintiere que otra persona se lo cause, será castigada con presidio menor en su grado máximo. Si lo hiciere por ocultar su deshonra, incurrirá en la pena de presidio menor en su grado medio.</p>
+    <p>La suposición de parto y la sustitución de un niño por otro, serán castigadas con las penas de presidio menor en cualquiera de sus grados y multa de veintiuna a veinticinco unidades tributarias mensuales.</p>
+
+    <b>Violación:</b>
+    <p>La violación será castigada con la pena de presidio mayor en su grado mínimo a medio.</p>
+    <p>Comete violación el que accede carnalmente, por vía vaginal, anal o bucal, a una persona mayor de catorce años, en alguno de los casos siguientes: Cuando se usa de fuerza o intimidación. Cuando la víctima se halla privada de sentido, o cuando se aprovecha su incapacidad para oponerse. Cuando se abusa de la enajenación o trastorno mental de la víctima.</p>
+    <p>El que accediere carnalmente, por vía vaginal, anal o bucal, a una persona menor de catorce años, será castigado con presidio mayor en sus grados medio a máximo, aunque no concurra circunstancia alguna de las enumeradas en el artículo anterior.</p>
+    <p>Será castigado con presidio menor en su grado máximo a presidio mayor en su grado mínimo, el que accediere carnalmente, por vía vaginal, anal o bucal, a una persona menor de edad pero mayor de catorce años, concurriendo cualquiera de las circunstancias siguientes: 1º Cuando se abusa de una anomalía o perturbación mental, aun transitoria, de la víctima, que por su menor entidad no sea constitutiva de enajenación o trastorno. 2º Cuando se abusa de una relación de dependencia de la víctima, como en los casos en que el agresor está encargado de su custodia, educación o cuidado, o tiene con ella una relación laboral. 3º Cuando se abusa del grave desamparo en que se encuentra la víctima. 4º Cuando se engaña a la víctima abusando de su inexperiencia o ignorancia sexual.</p>
+    <p>El que, con ocasión de violación, cometiere además homicidio en la persona de la víctima, será castigado con presidio perpetuo a presidio perpetuo calificado. Si el autor del delito descrito en el inciso anterior es un hombre y la víctima una mujer, el delito tendrá el nombre de violación con femicidio.</p>
+
+    <b>Parricidio:</b>
+    <p>El que, conociendo las relaciones que los ligan, mate a su padre, madre o hijo, a cualquier otro de sus ascendientes o descendientes o a quien es o ha sido su cónyuge o su conviviente, será castigado, como parricida, con la pena de presidio mayor en su grado máximo a presidio perpetuo calificado.</p>
+
+    <b>Femicidio:</b>
+    <p>El hombre que matare a una mujer que es o ha sido su cónyuge o conviviente, o con quien tiene o ha tenido un hijo en común, será sancionado con la pena de presidio mayor en su grado máximo a presidio perpetuo calificado.</p>
+    <p>La misma pena se impondrá al hombre que matare a una mujer en razón de tener o haber tenido con ella una relación de pareja de carácter sentimental o sexual sin convivencia.</p>
+    <p>Son circunstancias agravantes de responsabilidad penal para el delito de femicidio, las siguientes: 1. Encontrarse la víctima embarazada. 2. Ser la víctima una niña o una adolescente menor de dieciocho años de edad, una mujer adulta mayor o una mujer en situación de discapacidad en los términos de la ley N° 20.422. 3. Ejecutarlo en presencia de ascendientes o descendientes de la víctima. 4. Ejecutarlo en el contexto de violencia física o psicológica habitual del hechor contra la víctima.</p>
+
+    <b>Maltrato a menores de dieciocho años de edad, adultos mayores o personas en situación de discapacidad:</b>
+    <p>El que, de manera relevante, maltratare corporalmente a un niño, niña o adolescente menor de dieciocho años, a una persona adulta mayor o a una persona en situación de discapacidad en los términos de la ley N° 20.422 será sancionado con prisión en cualquiera de sus grados o multa de una a cuatro unidades tributarias mensuales, salvo que el hecho sea constitutivo de un delito de mayor gravedad.</p>
+    <p>El que teniendo un deber especial de cuidado o protección respecto de alguna de las personas referidas en el inciso primero, la maltratare corporalmente de manera relevante o no impidiere su maltrato debiendo hacerlo, será castigado con la pena de presidio menor en su grado mínimo, salvo que el hecho fuere constitutivo de un delito de mayor gravedad, caso en el cual se aplicará sólo la pena asignada por la ley a éste.</p>
+
+    <b>Tráfico ilícito de migrantes y trata de personas:</b>
+    <p>Tráfico de migrantes. El que con ánimo de lucro facilite o promueva la entrada ilegal al país de una persona que no sea nacional o residente, será castigado con reclusión menor en su grado medio a máximo y multa de cincuenta a cien unidades tributarias mensuales.</p>
+    <p>La pena señalada en el inciso anterior se aplicará en su grado máximo si se pusiere en peligro la integridad física o salud del afectado.</p>
+    <p>Si se pusiere en peligro la vida del afectado o si éste fuere menor de edad, la pena señalada en el inciso anterior se aumentará en un grado.</p>
+    <p>Por entrada ilegal se entenderá el paso de fronteras sin haber cumplido los requisitos necesarios para entrar legalmente a Chile.</p>
+
+    <b>Robo con violencia o intimidación en las personas:</b>
+    <p>El culpable de robo con violencia o intimidación en las personas, sea que la violencia o la intimidación tenga lugar antes del robo para facilitar su ejecución, en el acto de cometerlo o después de cometido para favorecer su impunidad, será castigado:</p>
+    <p>1°. Con presidio mayor en su grado máximo a presidio perpetuo calificado cuando, con motivo u ocasión del robo, se cometiere, además, homicidio o violación.</p>
+    <p>2°. Con presidio mayor en su grado máximo a presidio perpetuo cuando, con motivo u ocasión del robo, se cometiere alguna de las lesiones comprendidas en los artículos 395, 396 y 397, número 1°.</p>
+    <p>3°. Con presidio mayor en su grado medio a máximo cuando se cometieren lesiones de las que trata el número 2° del artículo 397 o cuando las víctimas fueren retenidas bajo rescate o por un lapso mayor a aquel que resulte necesario para la comisión del delito.</p>
+    <p>Los que cometieren actos de piratería serán castigados con la pena de presidio mayor en su grado mínimo a presidio perpetuo.</p>
+    <p>Se considerará como robo y se castigará con la pena de presidio menor en sus grados medio a máximo, la apropiación de dinero u otras especies que los ofendidos lleven consigo, cuando se proceda por sorpresa o aparentando riñas en lugares de concurrencia o haciendo otras maniobras dirigidas a causar agolpamiento o confusión.</p>
+
+    <b>Robo con fuerza en las cosas:</b>
+    <p>El culpable de robo con fuerza en las cosas efectuado en lugar habitado o destinado a la habitación o en sus dependencias, sufrirá la pena de presidio mayor en su grado mínimo si cometiere el delito:</p>
+    <p>1.º Con escalamiento, entendiéndose que lo hay cuando se entra por vía no destinada al efecto, por forado o con rompimiento de pared o techos, o fractura de puertas o ventanas.</p>
+    <p>2.º Haciendo uso de llaves falsas, o verdadera que hubiere sido sustraída, de ganzúas u otros instrumentos semejantes para entrar en el lugar del robo.</p>
+    <p>3.º A Introduciéndose en el lugar del robo mediante la seducción de algún doméstico, o a favor de nombres supuestos o simulación de autoridad.</p>
+    <p>El robo en lugar no habitado, se castigará con presidio menor en sus grados medio a máximo, siempre que concurra alguna de las circunstancias siguientes:</p>
+    <p>1.º A Escalamiento.</p>
+    <p>2.º Fractura de puertas interiores, armarios, arcas u otra clase de muebles u objetos cerrados o sellados.</p>
+    <p>3.º Haber hecho uso de llaves falsas, o verdadera que se hubiere sustraído, de ganzúas u otros instrumentos semejantes para entrar en el lugar del robo o abrir los muebles cerrados.</p>
+
+  </div>
   <div id="todos-casos-container"></div>
 
   <div id="volver-container">
     <button id="volver-btn">Regresar al inicio</button>
-  </div>  
+  </div>
 
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -70,3 +144,6 @@
 </body>
 
 </html>
+
+
+
