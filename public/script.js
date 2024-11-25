@@ -207,44 +207,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById('todos-casos-container');
     const ctx = document.getElementById('grafico-votos').getContext('2d');
   
-    // Retrieve updated data from localStorage if available
     const conteoData = JSON.parse(localStorage.getItem('conteoData'));
   
-    // If localStorage has data, use it; otherwise, fetch from server
-    if (conteoData && conteoData.length > 0) {
-      renderCasosAndGraph(conteoData);
-    } else {
-      // Fetch cases from the server as a fallback
-      fetch('/api/casos')
-        .then(response => response.json())
-        .then(casos => {
-          renderCasosAndGraph(casos);
-        })
-        .catch(error => console.error('Error al cargar los casos:', error));
-    }
+    fetch('/api/casos')
+    .then(response => response.json())
+    .then(casos => {
+      localStorage.setItem('conteoData', JSON.stringify(casos));
+      renderCasosAndGraph(casos, container, ctx);
+    })
+    .catch(error => console.error('Error fetching cases:', error));
+
   
-    // Function to render cases and graph
     function renderCasosAndGraph(casos) {
-      // Clear the container
-      container.innerHTML = '';
-  
-      // Render the cases
-      casos.forEach(caso => {
-        const casoDiv = document.createElement('div');
-        casoDiv.classList.add('caso');
-        casoDiv.innerHTML = `
-          <h2>${caso.nombre}</h2>
-          <p><strong>Veces seleccionado:</strong> ${caso.conteo}</p>
-        `;
-        container.appendChild(casoDiv);
-      });
-  
-      // Sort cases by votes for the graph
       const sortedCasos = [...casos].sort((b, a) => b.conteo - a.conteo);
       const nombres = sortedCasos.map(caso => caso.nombre);
       const votos = sortedCasos.map(caso => caso.conteo);
   
-      // Render the graph
       new Chart(ctx, {
         type: 'bar',
         data: {
