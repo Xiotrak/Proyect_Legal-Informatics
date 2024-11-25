@@ -105,41 +105,56 @@ document.addEventListener('DOMContentLoaded', () => {
             const totalVotos =
               casos[casoSeleccionado].conteo + casos[casoNoSeleccionado].conteo;
     
+            // Determine percentages
             const porcentajeSeleccionado = Math.round(
               (casos[casoSeleccionado].conteo / totalVotos) * 100
             );
             const porcentajeNoSeleccionado = 100 - porcentajeSeleccionado;
     
+            // Ensure correct bar placement
             const porcentajeIzquierdo =
               posicion === 0 ? porcentajeSeleccionado : porcentajeNoSeleccionado;
             const porcentajeDerecho =
               posicion === 1 ? porcentajeSeleccionado : porcentajeNoSeleccionado;
     
+            // Assign names to the correct sides
+            const nombreIzquierdo =
+              posicion === 0
+                ? casos[casoSeleccionado].nombre
+                : casos[casoNoSeleccionado].nombre;
+            const nombreDerecho =
+              posicion === 1
+                ? casos[casoSeleccionado].nombre
+                : casos[casoNoSeleccionado].nombre;
+    
             const metricasContenedor = document.getElementById('metricas-container');
             const botonContinuar = document.getElementById('continue-button');
     
+            // Use the actual case names for the labels
             const metricasHTML = `
               <div class="percentage-bars">
                 <div class="bar bar-left" style="width: ${porcentajeIzquierdo}%;"></div>
                 <div class="bar bar-right" style="width: ${porcentajeDerecho}%;"></div>
               </div>
               <div class="percentage-labels">
-                <span><strong>${porcentajeIzquierdo}%</strong> eligieron <strong>${casos[casoSeleccionado].nombre}</strong></span>
-                <span><strong>${porcentajeDerecho}%</strong> eligieron <strong>${casos[casoNoSeleccionado].nombre}</strong></span>
+                <span><strong>${porcentajeIzquierdo}%</strong> eligieron <strong>${nombreIzquierdo}</strong></span>
+                <span><strong>${porcentajeDerecho}%</strong> eligieron <strong>${nombreDerecho}</strong></span>
               </div>
             `;
             metricasContenedor.innerHTML = metricasHTML;
     
+            // Disable further clicks
             const caseBoxes = document.querySelectorAll('.case');
             caseBoxes.forEach((box) => {
               box.onclick = null;
               box.classList.add('disabled');
             });
     
+            // Show "Continue" button
             botonContinuar.style.display = 'block';
             botonContinuar.onclick = () => {
-              metricasContenedor.innerHTML = '';
-              botonContinuar.style.display = 'none';
+              metricasContenedor.innerHTML = ''; // Clear metrics
+              botonContinuar.style.display = 'none'; // Hide the button
               avanzarAlSiguientePar();
             };
           } else {
