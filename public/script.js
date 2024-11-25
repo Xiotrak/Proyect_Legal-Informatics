@@ -247,6 +247,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('volver-btn').addEventListener('click', () => {
       window.location.href = 'welcome.html';
     });
+    document.getElementById('volver-btn2').addEventListener('click', () => {
+      window.location.href = 'welcome.html';
+    });
   }
 
 
