@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
     inicializarPaginaPrincipal();
   } else if (currentPage.includes('todos-los-casos.html')) {
     inicializarTodosLosCasos();
+  } else if (currentPage.includes('listado-casos.html')) {
+    inicializarInfoCasos();
   }
 
   //---------------------------------------------------------------------------------------------------------------------------------
@@ -238,7 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   
       // Sort cases by votes for the graph
-      const sortedCasos = [...casos].sort((a, b) => b.conteo - a.conteo);
+      const sortedCasos = [...casos].sort((b, a) => b.conteo - a.conteo);
       const nombres = sortedCasos.map(caso => caso.nombre);
       const votos = sortedCasos.map(caso => caso.conteo);
   
@@ -264,9 +266,95 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
   
-    // Add functionality to the return button
     document.getElementById('volver-btn').addEventListener('click', () => {
       window.location.href = 'welcome.html';
     });
-  }  
+  }
+
+
+  // Función que se ejecuta para listado-casos.html
+function inicializarInfoCasos() {
+  const container = document.getElementById('todos-casos-container');
+
+  // Se obtienen todos los casos y se ordenan en cierto formato HTML
+  fetch('/api/casos')
+    .then(response => response.json())
+    .then(data => {
+      data.forEach(caso => {
+        const casoDiv = document.createElement('div');
+        casoDiv.classList.add('caso');
+        casoDiv.innerHTML = `
+          <h2>${caso.nombre}</h2>
+          <p>Descripción: ${caso.descripcion}</p>
+          <button class="eliminar-btn" data-id="${caso.id}">Eliminar</button>
+          <button class="editar-btn" data-id="${caso.id}">Editar</button>`;
+
+        container.appendChild(casoDiv);
+      });
+
+      // Agregar eventos a los botones de eliminar
+      const eliminarBtns = document.querySelectorAll('.eliminar-btn');
+      eliminarBtns.forEach(btn => {
+        btn.addEventListener('click', (event) => {
+          const casoId = event.target.dataset.id;
+
+          // Confirmar antes de eliminar
+          if (confirm('¿Estás seguro de que deseas eliminar este caso?')) {
+            fetch(`/api/casos/${casoId}`, {
+              method: 'DELETE'
+            })
+              .then(response => {
+                if (response.ok) {
+                  alert('Caso eliminado correctamente.');
+                  window.location.reload(); // Recargar para reflejar cambios
+                } else {
+                  response.json().then(data => alert(data.message || 'Error al eliminar el caso.'));
+                }
+              })
+              .catch(error => console.error('Error al eliminar el caso:', error));
+          }
+        });
+      });
+
+      // Agregar eventos a los botones de editar
+      const editarBtns = document.querySelectorAll('.editar-btn');
+      editarBtns.forEach(btn => {
+        btn.addEventListener('click', (event) => {
+          const casoId = event.target.dataset.id;
+          const caso = data.find(c => c.id == casoId);
+
+          // Mostrar formulario para editar
+          const nuevoNombre = prompt('Nuevo nombre:', caso.nombre);
+          const nuevaDescripcion = prompt('Nueva descripción:', caso.descripcion);
+
+          if (nuevoNombre && nuevaDescripcion) {
+            // Enviar la solicitud para actualizar el caso
+            fetch(`/api/editar-caso/${casoId}`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ nombre: nuevoNombre, descripcion: nuevaDescripcion })
+            })
+              .then(response => {
+                if (response.ok) {
+                  alert('Caso actualizado correctamente.');
+                  window.location.reload(); // Recargar para reflejar cambios
+                } else {
+                  alert('Error al actualizar el caso.');
+                  response.json().then(data => alert(data.message || 'Error al editar el caso.'));
+                }
+              })
+              .catch(error => console.error('Error al actualizar el caso:', error));
+          }
+        });
+      });
+    })
+    .catch(error => console.error('Error al cargar los casos:', error));
+
+  document.getElementById('volver-btn').addEventListener('click', () => {
+    window.location.href = 'index.html';
+  });
+}
+
+  
+
 });

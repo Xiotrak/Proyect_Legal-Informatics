@@ -6,21 +6,64 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Todos los Casos</title>
   <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="barra.css">
 </head>
 
 <body>
   <h1>Todos los Casos</h1>
   
-  <div id="todos-casos-container"></div>
-  
   <div id="grafico-container">
     <h2>Ranking de casos más votados</h2>
     <canvas id="grafico-votos"></canvas>
   </div>
-  
+
+  <br><br>
+  <div class="timeline-container">
+    <div class="marker start">
+      <span class="tooltip">Prisión grado mínimo</span>
+    </div>
+    <div class="timeline">
+        <div class="marker quarter">
+            <span class="tooltip">Presidio o reclusión menor</span>
+        </div>
+        <div class="marker three-quarters">
+            <span class="tooltip">Presidio o reclusión mayor</span>
+        </div>
+    </div>
+    <div class="marker end">
+      <span class="tooltip">Presidio perpetuo</span>
+    </div>
+  </div>
+
+  <br><br><br><br>
+  <!-- Campo de selección -->
+  <label for="opciones">Filtrar por Región:</label>
+  <select id="opciones" name="opciones">
+      <option value="opcion1">Aisén</option>
+      <option value="opcion2">Antofagasta</option>
+      <option value="opcion3">Araucanía</option>
+      <option value="opcion4">Arica y Parinacota</option>
+      <option value="opcion5">Atacama</option>
+      <option value="opcion6">BioBío</option>
+      <option value="opcion7">Coquimbo</option>
+      <option value="opcion8">Libertador General Bernardo O´Higgins</option>
+      <option value="opcion9">Los Lagos</option>
+      <option value="opcion10">Los Ríos</option>
+      <option value="opcion11">Magallanes</option>
+      <option value="opcion12">Maule</option>
+      <option value="opcion13">Ñuble</option>
+      <option value="opcion14">Región Metropolitana</option>
+      <option value="opcion15">Tarapacá</option>
+      <option value="opcion16">Valparaíso</option>
+      <option value="opcion17" selected="selected">Todas</option>
+  </select>
+  <br><br><br><br>
+  <div id="todos-casos-container"></div>
+
   <div id="volver-container">
     <button id="volver-btn">Regresar al inicio</button>
   </div>  
+
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="script.js"></script>

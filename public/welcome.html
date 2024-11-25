@@ -19,15 +19,20 @@
     </div>
     <button id="start-button">Comenzar</button>
     <button id="create-button">Crear nuevo caso</button>
+    <button id="listado-button">Explorar casos</button>
   </div>
 
   <script>
     document.getElementById('start-button').addEventListener('click', () => {
-      window.location.href = 'index.html';
+      window.location.href = 'ubicacion.html';
     });
 
     document.getElementById('create-button').addEventListener('click', () => {
       window.location.href = 'formulario.html';
+    });
+
+    document.getElementById('listado-button').addEventListener('click', () => {
+      window.location.href = 'listado-casos.html';
     });
   </script>
 </body>

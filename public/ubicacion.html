@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Entrada</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+          
+        h1 {
+            font-size: 2.8rem; /* Título principal más grande */
+            text-align: center;
+            margin: 1rem 0;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin: 10px;
+            font-weight: bold;
+        }
+        .mensaje-container {
+            background-color: #92f9f6;
+            border: 8px solid #5a5a5a;
+            border-radius: 10px;
+            color: black;
+            padding: 20px;
+            max-width: 50%;
+            margin: 20px auto;
+            text-align: left;
+            font-size: 20px;
+            line-height: 1.6;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        button {
+            display: block;
+            margin: 15px auto;
+            padding: 0.5rem 1rem;
+            font-size: 15px;
+            background-color: #747474;
+            color: white;
+            border: 2px solid #000000;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        input {
+            font-size: 15px; /* Título principal más grande */
+            text-align: center;
+            color: #000000;
+        }
+    </style>
+    
+</head>
+<body>
+    <h1>Información de ingreso</h1>
+    <div class="mensaje-container">
+        <p>Para que pueda participar de este experimento, le solicitamos ingresar los siguientes datos con tal de verificar que es un usuario de Nacionalidad Chilena.</p>
+        <p>Esto se pide con el fin de que los resultados no se vean afectados por distintas opiniones culturales que pueden existir en otros países.</p>
+    </div>
+    <form>
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" placeholder="Ingresa tu nombre" required>
+        <br><br>
+
+        <label for="rut">Rut:</label>
+        <input type="text" id="rut" name="rut" placeholder="XXXXXXXX-X" required>
+        <br><br>
+
+
+        <!-- Campo de selección -->
+        <label for="opciones">Región:</label>
+        <select id="opciones" name="opciones">
+            <option value="opcion1">Aisén</option>
+            <option value="opcion2">Antofagasta</option>
+            <option value="opcion3">Araucanía</option>
+            <option value="opcion4">Arica y Parinacota</option>
+            <option value="opcion5">Atacama</option>
+            <option value="opcion6">BioBío</option>
+            <option value="opcion7">Coquimbo</option>
+            <option value="opcion8">Libertador General Bernardo O´Higgins</option>
+            <option value="opcion9">Los Lagos</option>
+            <option value="opcion10">Los Ríos</option>
+            <option value="opcion11">Magallanes</option>
+            <option value="opcion12">Maule</option>
+            <option value="opcion13">Ñuble</option>
+            <option value="opcion14" selected="selected">Región Metropolitana</option>
+            <option value="opcion15">Tarapacá</option>
+            <option value="opcion16">Valparaíso</option>
+        </select>
+        <br><br>
+
+    </form>
+
+    <button type="submit" id="index-button">Enviar</button>
+    <button id="home-btn">Regresar al inicio</button>
+
+    <script>
+        document.getElementById('home-btn').addEventListener('click', () => {
+            window.location.href = 'welcome.html';
+        });
+        document.getElementById('index-button').addEventListener('click', () => {
+            window.location.href = 'index.html';
+          });
+    </script>
+</body>
+</html>
